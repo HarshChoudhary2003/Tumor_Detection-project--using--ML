@@ -1,7 +1,9 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, VotingClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 import joblib
 
@@ -27,14 +29,21 @@ scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
-print("Training Random Forest...")
-rfc = RandomForestClassifier(random_state=42)
-rfc.fit(X_train_scaled, y_train)
+print("Training Neural Ensemble Model...")
+rf = RandomForestClassifier(n_estimators=100, random_state=42)
+svc = SVC(probability=True, kernel='rbf', C=10, gamma='auto', random_state=42)
+lr = LogisticRegression(max_iter=1000, C=1, random_state=42)
 
-y_pred = rfc.predict(X_test_scaled)
+ensemble_model = VotingClassifier(
+    estimators=[('rf', rf), ('svc', svc), ('lr', lr)], 
+    voting='soft'
+)
+ensemble_model.fit(X_train_scaled, y_train)
+
+y_pred = ensemble_model.predict(X_test_scaled)
 print("Accuracy:", accuracy_score(y_test, y_pred))
 
 print("Saving model and scaler...")
-joblib.dump(rfc, 'model.joblib')
+joblib.dump(ensemble_model, 'model.joblib')
 joblib.dump(scaler, 'scaler.joblib')
 print("Done!")

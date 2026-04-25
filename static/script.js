@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 features.push(val);
             }
 
-            const response = await fetch('/predict', {
+            const response = await fetch('http://127.0.0.1:8001/predict', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
