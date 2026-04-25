@@ -47,6 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
         input.required = true;
         input.placeholder = "0.0";
         
+        input.addEventListener('input', () => {
+            if (input.value !== '') {
+                input.classList.add('filled');
+            } else {
+                input.classList.remove('filled');
+            }
+        });
+        
         wrapper.appendChild(label);
         wrapper.appendChild(input);
         return wrapper;
@@ -79,10 +87,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById(`feature_${index}`);
             // Add a tiny delay for a cascading fill effect
             setTimeout(() => {
+                input.classList.remove('filled'); // Reset animation
+                void input.offsetWidth; // Trigger reflow for re-animation
                 input.value = dataToUse[index];
+                input.classList.add('filled');
                 // Trigger input event to style it if needed
-                input.dispatchEvent(new Event('input'));
-            }, index * 10);
+                input.dispatchEvent(new Event('change'));
+            }, index * 20);
         });
 
         setTimeout(() => {
@@ -106,7 +117,18 @@ document.addEventListener('DOMContentLoaded', () => {
         contentSpan.style.opacity = '0.5';
         loaderSpan.style.display = 'inline-block';
         
-        const startTime = performance.now();
+        // Update UI to show analyzing animation immediately
+        const resultContent = document.getElementById('resultContent');
+        const resultCard = document.getElementById('resultCard');
+        resultCard.classList.remove('malignant', 'benign');
+        resultContent.innerHTML = `
+            <div class="scanner-animation">
+                <div class="scanner-line"></div>
+                <i class="fa-solid fa-network-wired fa-beat-fade"></i>
+            </div>
+            <p class="analyzing-text">Processing neural pathways...</p>
+        `;
+        resultContent.classList.remove('empty-state');
 
         try {
             // Collect features in correct order
@@ -175,11 +197,13 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="prob-display">
                 Neural Confidence: <span>${probPct}%</span>
             </div>
-            <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
-                ${isMalignant 
-                    ? 'High-risk cell characteristics detected. Immediate clinical review recommended.' 
-                    : 'Cell characteristics appear stable. Routine monitoring advised.'}
-            </p>
+            <div class="typewriter-container" style="margin-top: 1rem;">
+                <p class="typewriter" style="color: var(--text-secondary); font-size: 0.9rem;">
+                    ${isMalignant 
+                        ? 'High-risk cell characteristics detected. Immediate clinical review recommended.' 
+                        : 'Cell characteristics appear stable. Routine monitoring advised.'}
+                </p>
+            </div>
         `;
         resultContent.classList.remove('empty-state');
     }
