@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const seFeaturesDiv = document.getElementById('se-features');
     const worstFeaturesDiv = document.getElementById('worst-features');
     
+    let radarChart = null;
+
     // Feature definition matching the dataset order exactly
     const featureNames = [
         "radius_mean", "texture_mean", "perimeter_mean", "area_mean", "smoothness_mean", 
@@ -151,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
             const latency = Math.round(performance.now() - startTime);
             
-            displayResult(result, latency);
+            displayResult(result, latency, features);
             
         } catch (error) {
             console.error('Error:', error);
@@ -206,5 +208,65 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
         resultContent.classList.remove('empty-state');
+        
+        updateRadarChart(features, isMalignant);
+    }
+    
+    function updateRadarChart(features, isMalignant) {
+        const ctx = document.getElementById('featureRadarChart').getContext('2d');
+        
+        // Take a subset of key features for the radar chart to avoid clutter
+        const displayIndices = [0, 1, 2, 3, 4, 20, 21, 22, 23, 24]; // means and worsts
+        const displayLabels = displayIndices.map(i => featureNames[i].replace(/_/g, ' '));
+        const displayData = displayIndices.map(i => features[i]);
+        
+        // Normalize the data for visualization purposes (just dividing by max of each feature roughly)
+        const maxVals = [25, 30, 150, 2000, 0.2, 35, 40, 200, 3000, 0.25];
+        const normalizedData = displayData.map((val, idx) => (val / maxVals[idx]) * 100);
+
+        const color = isMalignant ? 'rgba(239, 68, 68, 0.5)' : 'rgba(16, 185, 129, 0.5)';
+        const borderColor = isMalignant ? 'rgba(239, 68, 68, 1)' : 'rgba(16, 185, 129, 1)';
+
+        if (radarChart) {
+            radarChart.destroy();
+        }
+
+        radarChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: displayLabels,
+                datasets: [{
+                    label: 'Patient Profile (Normalized)',
+                    data: normalizedData,
+                    backgroundColor: color,
+                    borderColor: borderColor,
+                    pointBackgroundColor: borderColor,
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: borderColor,
+                    borderWidth: 2,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                        pointLabels: {
+                            color: 'rgba(226, 232, 240, 0.8)',
+                            font: { size: 10, family: 'Inter' }
+                        },
+                        ticks: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: '#e2e8f0', font: { family: 'Inter' } }
+                    }
+                }
+            }
+        });
     }
 });
