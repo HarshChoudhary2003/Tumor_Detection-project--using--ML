@@ -106,6 +106,35 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleMalignant = !toggleMalignant;
     });
 
+    document.getElementById('clearBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        featureNames.forEach((_, index) => {
+            const input = document.getElementById(`feature_${index}`);
+            input.value = '';
+            input.classList.remove('filled');
+        });
+        
+        const resultContent = document.getElementById('resultContent');
+        const resultCard = document.getElementById('resultCard');
+        resultCard.classList.remove('malignant', 'benign');
+        resultContent.innerHTML = `
+            <div class="scanner-animation">
+                <div class="scanner-line"></div>
+                <i class="fa-solid fa-server"></i>
+            </div>
+            <p class="empty-state" style="color: var(--text-secondary);">Awaiting input parameters for neural analysis...</p>
+        `;
+        resultContent.classList.add('empty-state');
+        document.getElementById('confidenceBar').style.width = '0%';
+        document.getElementById('confidenceValue').textContent = '0.0%';
+        document.getElementById('latencyVal').textContent = '-- ms';
+        
+        if (radarChart) {
+            radarChart.destroy();
+            radarChart = null;
+        }
+    });
+
     // Form Submission
     const form = document.getElementById('predictionForm');
     form.addEventListener('submit', async (e) => {
@@ -241,6 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         resultContent.classList.remove('empty-state');
         
+        window.lastChartData = { features, isMalignant };
         updateRadarChart(features, isMalignant);
         saveToHistory(data.prediction, probPct, latency);
     }
@@ -259,6 +289,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const color = isMalignant ? 'rgba(239, 68, 68, 0.5)' : 'rgba(16, 185, 129, 0.5)';
         const borderColor = isMalignant ? 'rgba(239, 68, 68, 1)' : 'rgba(16, 185, 129, 1)';
+        
+        const isDark = document.body.classList.contains('dark-theme');
+        const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+        const labelColor = isDark ? 'rgba(226, 232, 240, 0.8)' : 'rgba(45, 55, 72, 0.8)';
+        const legendColor = isDark ? '#e2e8f0' : '#2d3748';
 
         if (radarChart) {
             radarChart.destroy();
@@ -285,10 +320,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 maintainAspectRatio: false,
                 scales: {
                     r: {
-                        angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
-                        grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                        angleLines: { color: gridColor },
+                        grid: { color: gridColor },
                         pointLabels: {
-                            color: 'rgba(45, 55, 72, 0.8)',
+                            color: labelColor,
                             font: { size: 10, family: 'Inter' }
                         },
                         ticks: { display: false }
@@ -296,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 plugins: {
                     legend: {
-                        labels: { color: '#2d3748', font: { family: 'Inter' } }
+                        labels: { color: legendColor, font: { family: 'Inter' } }
                     }
                 }
             }
@@ -323,6 +358,37 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        });
+    }
+
+    // Theme Toggle
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    if (themeToggleBtn) {
+        const themeIcon = themeToggleBtn.querySelector('i');
+        
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            
+            if (isDark) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+            
+            if (radarChart && window.lastChartData) {
+                updateRadarChart(window.lastChartData.features, window.lastChartData.isMalignant);
+            }
         });
     }
 

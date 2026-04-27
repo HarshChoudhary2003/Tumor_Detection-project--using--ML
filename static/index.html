@@ -22,9 +22,14 @@
                 <i class="fa-solid fa-dna"></i>
                 <h1>Onco<span>AI</span> Pro</h1>
             </div>
-            <div class="status-indicator">
-                <span class="pulse"></span>
-                <span>System Active</span>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <button id="themeToggleBtn" class="neo-btn" title="Toggle Theme" style="padding: 0.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; color: var(--text-primary);">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <div class="status-indicator">
+                    <span class="pulse"></span>
+                    <span>System Active</span>
+                </div>
             </div>
         </header>
 
@@ -32,7 +37,10 @@
             <section class="control-panel neo-panel">
                 <div class="panel-header">
                     <h2><i class="fa-solid fa-sliders"></i> Diagnostic Input</h2>
-                    <button id="autoFillBtn" class="neo-btn btn-secondary" title="Auto-fill with sample data"><i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Fill</button>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button id="clearBtn" class="neo-btn btn-secondary" title="Clear all fields"><i class="fa-solid fa-trash-can"></i> Clear</button>
+                        <button id="autoFillBtn" class="neo-btn btn-secondary" title="Auto-fill with sample data"><i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Fill</button>
+                    </div>
                 </div>
                 
                 <form id="predictionForm" class="features-form">

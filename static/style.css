@@ -17,6 +17,28 @@
     --font-body: 'Inter', sans-serif;
 }
 
+body.dark-theme {
+    --bg-color: #262a33;
+    --shadow-light: #2d313c;
+    --shadow-dark: #1f232a;
+    --panel-border: rgba(255, 255, 255, 0.02);
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --accent-glow: rgba(59, 130, 246, 0.5);
+    --danger-glow: rgba(239, 68, 68, 0.5);
+    --success-glow: rgba(16, 185, 129, 0.5);
+}
+
+body.dark-theme .status-indicator { background: rgba(0, 0, 0, 0.3); }
+body.dark-theme .feature-groups::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+body.dark-theme .feature-groups::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+body.dark-theme .feature-groups::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+body.dark-theme .scanner-animation { border: 2px dashed rgba(255,255,255,0.1); }
+body.dark-theme .scanner-animation i { color: rgba(255,255,255,0.2); }
+body.dark-theme .progress-bar-bg { background: rgba(0,0,0,0.4); }
+body.dark-theme .stat-metrics { background: rgba(0,0,0,0.2); }
+body.dark-theme .history-table tbody tr:hover { background: rgba(255, 255, 255, 0.05); }
+
 * {
     margin: 0;
     padding: 0;
@@ -29,6 +51,7 @@ body {
     font-family: var(--font-body);
     min-height: 100vh;
     overflow-x: hidden;
+    transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 /* Dynamic Background Blobs - Hidden for Neomorphism */
@@ -45,7 +68,7 @@ body {
     border: 1px solid var(--panel-border);
     position: relative;
     overflow: hidden;
-    transition: all 0.4s ease;
+    transition: all 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
 }
 
 .neo-panel:hover {
