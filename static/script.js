@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const worstFeaturesDiv = document.getElementById('worst-features');
     
     let radarChart = null;
+    let predictionHistory = JSON.parse(localStorage.getItem('tumorHistory')) || [];
 
     // Feature definition matching the dataset order exactly
     const featureNames = [
@@ -110,6 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
+        const startTime = performance.now();
+        
         // UI Updates for loading state
         const submitBtn = document.getElementById('predictBtn');
         const contentSpan = submitBtn.querySelector('.btn-content');
@@ -165,7 +168,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function displayResult(data, latency) {
+    function updateHistoryUI() {
+        const tbody = document.getElementById('historyTableBody');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+        
+        predictionHistory.slice().reverse().forEach(entry => {
+            const tr = document.createElement('tr');
+            
+            const isMalignant = entry.prediction === 'Malignant';
+            const tagClass = isMalignant ? 'malignant-tag' : 'benign-tag';
+            
+            tr.innerHTML = `
+                <td>${entry.time}</td>
+                <td class="badge-cell"><span class="${tagClass}">${entry.prediction}</span></td>
+                <td>${entry.confidence}%</td>
+                <td>${entry.latency} ms</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function saveToHistory(prediction, confidence, latency) {
+        const time = new Date().toLocaleTimeString();
+        predictionHistory.push({ time, prediction, confidence, latency });
+        if (predictionHistory.length > 20) predictionHistory.shift();
+        localStorage.setItem('tumorHistory', JSON.stringify(predictionHistory));
+        updateHistoryUI();
+    }
+
+    function displayResult(data, latency, features) {
         const resultCard = document.getElementById('resultCard');
         const resultContent = document.getElementById('resultContent');
         const confidenceBar = document.getElementById('confidenceBar');
@@ -210,6 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resultContent.classList.remove('empty-state');
         
         updateRadarChart(features, isMalignant);
+        saveToHistory(data.prediction, probPct, latency);
     }
     
     function updateRadarChart(features, isMalignant) {
@@ -269,4 +302,29 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // History Export
+    const downloadHistoryBtn = document.getElementById('downloadHistoryBtn');
+    if (downloadHistoryBtn) {
+        downloadHistoryBtn.addEventListener('click', () => {
+            if (predictionHistory.length === 0) {
+                alert("No history to export.");
+                return;
+            }
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Time,Diagnosis,Confidence (%),Latency (ms)\n";
+            predictionHistory.forEach(row => {
+                csvContent += `${row.time},${row.prediction},${row.confidence},${row.latency}\n`;
+            });
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "tumor_prediction_history.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    }
+
+    updateHistoryUI();
 });

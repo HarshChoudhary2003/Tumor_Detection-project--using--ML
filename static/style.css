@@ -605,6 +605,56 @@ button {
     font-size: 0.95rem;
 }
 
+/* History Table */
+.history-panel {
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.history-table th, .history-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--panel-border);
+}
+
+.history-table th {
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.history-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.history-table td.badge-cell span {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.history-table td.badge-cell .malignant-tag {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+    border: 1px solid var(--danger);
+}
+
+.history-table td.badge-cell .benign-tag {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+    border: 1px solid var(--success);
+}
+
 /* Entry Animations */
 @keyframes slideInUp {
     from {

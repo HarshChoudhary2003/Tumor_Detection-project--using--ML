@@ -121,6 +121,28 @@
                         <canvas id="featureRadarChart"></canvas>
                     </div>
                 </div>
+
+                <section class="history-panel glass-panel">
+                    <div class="panel-header" style="margin-bottom: 1rem; border-bottom: none;">
+                        <h2><i class="fa-solid fa-clock-rotate-left"></i> Prediction History</h2>
+                        <button id="downloadHistoryBtn" class="btn-secondary" title="Export History as CSV"><i class="fa-solid fa-download"></i> Export</button>
+                    </div>
+                    <div class="table-container" style="max-height: 250px; overflow-y: auto;">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Diagnosis</th>
+                                    <th>Confidence</th>
+                                    <th>Latency</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody">
+                                <!-- History populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
             </section>
         </main>
     </div>
