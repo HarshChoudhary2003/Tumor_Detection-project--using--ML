@@ -17,7 +17,7 @@
     </div>
 
     <div class="app-container">
-        <header class="glass-header">
+        <header class="neo-panel header-neo">
             <div class="logo">
                 <i class="fa-solid fa-dna"></i>
                 <h1>Onco<span>AI</span> Pro</h1>
@@ -29,10 +29,10 @@
         </header>
 
         <main class="dashboard">
-            <section class="control-panel glass-panel">
+            <section class="control-panel neo-panel">
                 <div class="panel-header">
                     <h2><i class="fa-solid fa-sliders"></i> Diagnostic Input</h2>
-                    <button id="autoFillBtn" class="btn-secondary" title="Auto-fill with sample data"><i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Fill</button>
+                    <button id="autoFillBtn" class="neo-btn btn-secondary" title="Auto-fill with sample data"><i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Fill</button>
                 </div>
                 
                 <form id="predictionForm" class="features-form">
@@ -63,7 +63,7 @@
                     </div>
                     
                     <div class="form-actions">
-                        <button type="submit" class="btn-primary glow-btn" id="predictBtn">
+                        <button type="submit" class="neo-btn btn-primary" id="predictBtn">
                             <span class="btn-content">
                                 <i class="fa-solid fa-microscope"></i>
                                 Run Neural Analysis
@@ -77,7 +77,7 @@
             </section>
 
             <section class="results-panel">
-                <div class="result-card glass-panel" id="resultCard">
+                <div class="result-card neo-panel" id="resultCard">
                     <div class="card-glow"></div>
                     <div class="result-header">
                         <i class="fa-solid fa-laptop-medical"></i>
@@ -93,7 +93,7 @@
                     </div>
                 </div>
 
-                <div class="system-stats glass-panel">
+                <div class="system-stats neo-panel">
                     <h3><i class="fa-solid fa-microchip"></i> Model Confidence</h3>
                     <div class="progress-bar-container">
                         <div class="progress-bar-bg">
@@ -122,10 +122,10 @@
                     </div>
                 </div>
 
-                <section class="history-panel glass-panel">
+                <section class="history-panel neo-panel">
                     <div class="panel-header" style="margin-bottom: 1rem; border-bottom: none;">
                         <h2><i class="fa-solid fa-clock-rotate-left"></i> Prediction History</h2>
-                        <button id="downloadHistoryBtn" class="btn-secondary" title="Export History as CSV"><i class="fa-solid fa-download"></i> Export</button>
+                        <button id="downloadHistoryBtn" class="neo-btn btn-secondary" title="Export History as CSV"><i class="fa-solid fa-download"></i> Export</button>
                     </div>
                     <div class="table-container" style="max-height: 250px; overflow-y: auto;">
                         <table class="history-table">

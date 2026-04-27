@@ -1,7 +1,8 @@
 :root {
-    --bg-color: #0b0f19;
-    --panel-bg: rgba(18, 25, 43, 0.65);
-    --panel-border: rgba(255, 255, 255, 0.08);
+    --bg-color: #262a33;
+    --shadow-light: #2d313c;
+    --shadow-dark: #1f232a;
+    --panel-border: rgba(255, 255, 255, 0.02);
     --text-primary: #e2e8f0;
     --text-secondary: #94a3b8;
     --accent-primary: #3b82f6;
@@ -30,72 +31,27 @@ body {
     overflow-x: hidden;
 }
 
-/* Dynamic Background Blobs */
+/* Dynamic Background Blobs - Hidden for Neomorphism */
 .background-animation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
-    overflow: hidden;
+    display: none;
 }
 
-.blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.4;
-    animation: float 20s infinite alternate ease-in-out;
-}
-
-.blob-1 {
-    top: -10%;
-    left: -10%;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, var(--accent-primary), transparent 70%);
-}
-
-.blob-2 {
-    bottom: -20%;
-    right: -10%;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, var(--accent-secondary), transparent 70%);
-    animation-delay: -5s;
-}
-
-.blob-3 {
-    top: 40%;
-    left: 50%;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, #06b6d4, transparent 70%);
-    animation-delay: -10s;
-}
-
-@keyframes float {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(100px, 50px) scale(1.2); }
-}
-
-/* Glassmorphism Utilities */
-.glass-panel {
-    background: var(--panel-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--panel-border);
+/* Neomorphism Utilities */
+.neo-panel {
+    background: var(--bg-color);
     border-radius: 20px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    box-shadow: 8px 8px 16px var(--shadow-dark), 
+               -8px -8px 16px var(--shadow-light);
+    border: 1px solid var(--panel-border);
     position: relative;
     overflow: hidden;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+    transition: all 0.4s ease;
 }
 
-.glass-panel:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6), 0 0 20px rgba(59, 130, 246, 0.15);
+.neo-panel:hover {
+    box-shadow: 10px 10px 20px var(--shadow-dark), 
+               -10px -10px 20px var(--shadow-light);
+    transform: translateY(-2px);
 }
 
 /* Layout */
@@ -109,15 +65,11 @@ body {
 }
 
 /* Header */
-.glass-header {
+.header-neo {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 2rem;
-    background: var(--panel-bg);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--panel-border);
-    border-radius: 16px;
 }
 
 .logo {
@@ -204,20 +156,26 @@ body {
 }
 
 /* Buttons */
-button {
+.neo-btn {
     font-family: var(--font-body);
     cursor: pointer;
     border: none;
     outline: none;
     transition: all 0.3s ease;
+    background: var(--bg-color);
+    box-shadow: 6px 6px 12px var(--shadow-dark), 
+               -6px -6px 12px var(--shadow-light);
+}
+
+.neo-btn:active {
+    box-shadow: inset 4px 4px 8px var(--shadow-dark), 
+                inset -4px -4px 8px var(--shadow-light);
 }
 
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.05);
     color: var(--text-primary);
     padding: 0.6rem 1.2rem;
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -225,13 +183,11 @@ button {
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
+    color: var(--accent-primary);
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-    color: white;
+    color: var(--accent-primary);
     padding: 1rem 2rem;
     border-radius: 12px;
     font-size: 1.1rem;
@@ -242,32 +198,13 @@ button {
     align-items: center;
     position: relative;
     overflow: hidden;
+    border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
-.glow-btn::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.glow-btn:hover::before {
-    opacity: 1;
-    animation: rotate 4s linear infinite;
-}
-
-.glow-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px -5px var(--accent-glow);
-}
-
-@keyframes rotate {
-    100% { transform: rotate(360deg); }
+.btn-primary:hover {
+    color: #fff;
+    background: var(--accent-primary);
+    box-shadow: 0 0 20px var(--accent-glow);
 }
 
 .btn-content {
@@ -333,8 +270,8 @@ button {
 }
 
 .input-wrapper input {
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid var(--panel-border);
+    background: var(--bg-color);
+    border: none;
     color: var(--text-primary);
     padding: 0.8rem 1rem;
     border-radius: 8px;
@@ -342,24 +279,19 @@ button {
     font-size: 0.95rem;
     transition: all 0.3s ease;
     transform: scale(1);
+    box-shadow: inset 4px 4px 8px var(--shadow-dark), 
+                inset -4px -4px 8px var(--shadow-light);
 }
 
 .input-wrapper input:focus {
     outline: none;
-    border-color: var(--accent-primary);
-    box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
-    background: rgba(0, 0, 0, 0.6);
+    box-shadow: inset 6px 6px 12px var(--shadow-dark), 
+                inset -6px -6px 12px var(--shadow-light),
+                0 0 0 1px var(--accent-primary);
 }
 
 .input-wrapper input.filled {
-    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    border-color: rgba(255,255,255,0.3);
-}
-
-@keyframes popIn {
-    0% { transform: scale(0.95); }
-    50% { transform: scale(1.05); border-color: var(--accent-primary); box-shadow: 0 0 10px var(--accent-primary); }
-    100% { transform: scale(1); }
+    border-bottom: 2px solid var(--accent-primary);
 }
 
 /* Results Panel */
@@ -659,7 +591,7 @@ button {
 @keyframes slideInUp {
     from {
         opacity: 0;
-        transform: translateY(40px);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -672,7 +604,7 @@ button {
     to { opacity: 1; }
 }
 
-.glass-header {
+.header-neo {
     animation: slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
