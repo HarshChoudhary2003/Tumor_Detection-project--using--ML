@@ -1,17 +1,17 @@
 :root {
-    --bg-color: #262a33;
-    --shadow-light: #2d313c;
-    --shadow-dark: #1f232a;
-    --panel-border: rgba(255, 255, 255, 0.02);
-    --text-primary: #e2e8f0;
-    --text-secondary: #94a3b8;
+    --bg-color: #e0e5ec;
+    --shadow-light: #ffffff;
+    --shadow-dark: #a3b1c6;
+    --panel-border: rgba(255, 255, 255, 0.4);
+    --text-primary: #2d3748;
+    --text-secondary: #718096;
     --accent-primary: #3b82f6;
-    --accent-glow: rgba(59, 130, 246, 0.5);
+    --accent-glow: rgba(59, 130, 246, 0.3);
     --accent-secondary: #8b5cf6;
     --danger: #ef4444;
-    --danger-glow: rgba(239, 68, 68, 0.5);
+    --danger-glow: rgba(239, 68, 68, 0.3);
     --success: #10b981;
-    --success-glow: rgba(16, 185, 129, 0.5);
+    --success-glow: rgba(16, 185, 129, 0.3);
     
     --font-heading: 'Outfit', sans-serif;
     --font-body: 'Inter', sans-serif;
@@ -101,7 +101,7 @@ body {
     gap: 0.5rem;
     font-size: 0.9rem;
     color: var(--text-secondary);
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.05);
     padding: 0.5rem 1rem;
     border-radius: 30px;
     border: 1px solid var(--panel-border);
@@ -230,15 +230,15 @@ body {
     width: 6px;
 }
 .feature-groups::-webkit-scrollbar-track {
-    background: rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.05);
     border-radius: 10px;
 }
 .feature-groups::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.1);
     border-radius: 10px;
 }
 .feature-groups::-webkit-scrollbar-thumb:hover {
-    background: rgba(255,255,255,0.2);
+    background: rgba(0,0,0,0.2);
 }
 
 .feature-group h3 {
@@ -355,7 +355,7 @@ body {
 .scanner-animation {
     width: 80px;
     height: 80px;
-    border: 2px dashed rgba(255,255,255,0.1);
+    border: 2px dashed rgba(0,0,0,0.1);
     border-radius: 10px;
     position: relative;
     display: flex;
@@ -367,7 +367,7 @@ body {
 
 .scanner-animation i {
     font-size: 2rem;
-    color: rgba(255,255,255,0.2);
+    color: rgba(0,0,0,0.2);
 }
 
 .scanner-line {
@@ -492,7 +492,7 @@ body {
 .progress-bar-bg {
     flex: 1;
     height: 8px;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.1);
     border-radius: 4px;
     overflow: hidden;
 }
@@ -514,7 +514,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 1rem;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.05);
     padding: 1rem;
     border-radius: 12px;
 }
@@ -565,7 +565,7 @@ body {
 }
 
 .history-table tbody tr:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.02);
 }
 
 .history-table td.badge-cell span {

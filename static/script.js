@@ -285,10 +285,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 maintainAspectRatio: false,
                 scales: {
                     r: {
-                        angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
-                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                        angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                        grid: { color: 'rgba(0, 0, 0, 0.1)' },
                         pointLabels: {
-                            color: 'rgba(226, 232, 240, 0.8)',
+                            color: 'rgba(45, 55, 72, 0.8)',
                             font: { size: 10, family: 'Inter' }
                         },
                         ticks: { display: false }
@@ -296,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 plugins: {
                     legend: {
-                        labels: { color: '#e2e8f0', font: { family: 'Inter' } }
+                        labels: { color: '#2d3748', font: { family: 'Inter' } }
                     }
                 }
             }
